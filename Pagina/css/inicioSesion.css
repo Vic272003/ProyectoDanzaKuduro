@@ -1,0 +1,119 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-decoration: none;
+	border: none;
+	outline: none;
+    font-family: 'Verdana', monospace;
+    }
+    body  {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            background-image: url("./imagenes/ballet-1919321_1920.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 5%;
+            align-items: center;
+            height: 100vh;
+            
+    }
+form{
+    border: 1px solid grey;
+    
+    /*padding: 5% 8%;*/
+    /*margin-top: 5%;*/
+    background-color: #E3CC96;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        inset 0 -3em 3em rgba(0,0,0,0.1),
+        2em 1em 1em rgba(0,0,0,0.3);
+    border-radius: 10px;
+    width: 30%;
+    padding: 20px;
+    
+}
+h2{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.input{
+    padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: white;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 10px;
+  
+  /*margin-left: -10%;*/
+}
+
+
+
+
+input[type="submit"]{
+    width: 70%;
+    padding: 10px 0;
+    font-size: 20px;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 20px;
+    
+    background-color: #EEB600 ;
+}
+input[type="submit"]:hover{
+    cursor: pointer;
+    background-color: #CA9B02 ;
+}
+#tipoUser{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+    
+}
+.radioUser{
+    
+    display: flex;
+    align-items: center;
+    
+}
+.radioUser label{
+    
+    margin-left: 5px;
+}
+input[type=text],input[type=password]{
+    width: 100%;
+}
+input[type=radio]{
+    height: 15px;
+    width: 15px;
+}
+#campoRadio{
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 10px;
+    color: #757575;
+    font-size: 14px;
+}
+#campoRadio .input i{
+    color: black;
+    
+    
+}
+#campoRadio .input{
+    border: none;
+}
+.contenedorIniciar{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.btn{
+    width: 30%;
+}
