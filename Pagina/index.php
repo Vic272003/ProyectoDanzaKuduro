@@ -7,6 +7,11 @@ if (empty($_SESSION['tipo'])) {
 
 include_once('./clases/tarifa.php');
 
+if (isset($_SESSION['usuario'])) {
+
+    include_once('./paginas/horario.php');
+}
+
 
 
 /*
@@ -96,12 +101,9 @@ $todasTarifas = Tarifa::listarTarifas();
             <button name="enviarForm" type="submit">Enviar</button>
 
         </form>
-    </section>
-        <?php 
-        if (isset($_SESSION['usuario'])) {
-            include_once('./paginas/horario.php');
-        }
-        ?>
+    </section><?php
+                
+                ?>
     <script src="./css/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 

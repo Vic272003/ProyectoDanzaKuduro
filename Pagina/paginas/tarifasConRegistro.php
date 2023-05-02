@@ -23,18 +23,25 @@ foreach ($todasTarifas as $tarifa) {
                 if (isset($_SESSION['usuario'])) {
                     if ($tarifa['id'] == $_SESSION['tarifa']) { ?>
                         <button class="comprada" disabled>Comprada</button>
-                    <?php } else { ?>
-
+                        <?php } elseif (isset($_SESSION['carrito']['tarifa'])) {
+                        if ($tarifa['id'] == $_SESSION['carrito']['tarifa']) { ?>
+                            <button class="comprada" disabled>Añadida al carrito</button>
+                        <?php } else {
+                        ?>
+                            <button type="submit" class="btn comprar" name="botonTarifa" value="<?php echo $tarifa['id'] ?>">Comprar</button>
+                        <?php }
+                    } else { ?>
                         <button type="submit" class="btn comprar" name="botonTarifa" value="<?php echo $tarifa['id'] ?>">Comprar</button>
+                    <?php }  ?>
             </form>
-        <?php }
+        <?php
                 } else {
         ?>
-        <button type="button" class="btn comprar" data-bs-toggle="modal" data-bs-target="#alertaRegistrarte">
-            Comprar
-        </button>
-    <?php  }
-    ?>
+            <button type="button" class="btn comprar" data-bs-toggle="modal" data-bs-target="#alertaRegistrarte">
+                Comprar
+            </button>
+        <?php  }
+        ?>
 
         </article>
 

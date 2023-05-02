@@ -134,4 +134,16 @@ class Evento
         }
         return $infoEvento;
     }
+    public static function sacarPrecioEvento($id){
+        try {
+            $conectar = new Conexion();
+        } catch (Exception $ex) {
+        }
+        $infoEvento = false;
+        $existeEvento = $conectar->query("SELECT precio from eventos  where id='$id';");
+        if ($existeEvento->rowCount() > 0) {
+            $infoEvento = $existeEvento->fetch(PDO::FETCH_ASSOC);
+        }
+        return $infoEvento;
+    }
 }

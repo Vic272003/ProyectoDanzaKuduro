@@ -75,7 +75,21 @@ if ($_SESSION['tipo'] == 'cliente') {
                                         <td><?php echo $listadoEventos['hora'] ?></td>
                                         <td><?php echo $listadoEventos['precio'] ?></td>
                                         <td><?php echo $listadoEventos['lugar'] ?> </td>
-                                        <td><button type="submit" name="comprarEvento" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprar</button></td>
+                                        <?php
+                                        if (isset($_SESSION['carrito']['eventos'])) {
+                                            if (in_array($listadoEventos['id'], $_SESSION['carrito']['eventos'])) {
+
+                                        ?>
+                                                <td><button disabled type="submit" name="aniadidoCarrito" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Añadido al Carrito</button></td>
+
+                                            <?php } else { ?>
+                                                <td><button type="submit" name="comprarEvento" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprar</button></td>
+                                            <?php  }
+                                        } else { ?>
+                                            <td><button type="submit" name="comprarEvento" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprar</button></td>
+                                        <?php }
+                                        ?>
+
                                     </tr>
                                 <?php
                                 } ?>
