@@ -18,9 +18,11 @@ foreach ($todasTarifas as $tarifa) {
                 <li>Dummy </li>
                 <li>Printing</li>
             </ul>
-            <form action="./paginas/comprarTarifa.php" method="post">
-                <?php
-                if (isset($_SESSION['usuario'])) {
+
+            <?php
+            if (isset($_SESSION['usuario'])) { ?>
+                <form action="./paginas/comprarTarifa.php" method="post">
+                    <?php
                     if ($tarifa['id'] == $_SESSION['tarifa']) { ?>
                         <button class="comprada" disabled>Comprada</button>
                         <?php } elseif (isset($_SESSION['carrito']['tarifa'])) {
@@ -33,15 +35,15 @@ foreach ($todasTarifas as $tarifa) {
                     } else { ?>
                         <button type="submit" class="btn comprar" name="botonTarifa" value="<?php echo $tarifa['id'] ?>">Comprar</button>
                     <?php }  ?>
-            </form>
-        <?php
-                } else {
-        ?>
-            <button type="button" class="btn comprar" data-bs-toggle="modal" data-bs-target="#alertaRegistrarte">
-                Comprar
-            </button>
-        <?php  }
-        ?>
+                </form>
+            <?php
+            } else {
+            ?>
+                <button type="button" class="btn comprar" data-bs-toggle="modal" data-bs-target="#alertaRegistrarte">
+                    Comprar
+                </button>
+            <?php  }
+            ?>
 
         </article>
 

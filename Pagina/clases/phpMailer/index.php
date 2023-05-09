@@ -1,15 +1,13 @@
 <?php
+    //phpinfo ();
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
+    //Import PHPMailer classes into the global namespace
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
 
-require_once('../clases/phpMailer/PHPMailer/Exception.php');
-require_once('../clases/phpMailer/PHPMailer/PHPMailer.php');
-require_once('../clases/phpMailer/PHPMailer/SMTP.php');
-
-if (isset($_POST['enviarForm'])) {
-
+    require 'PHPMailer/Exception.php';
+    require 'PHPMailer/PHPMailer.php';
+    require 'PHPMailer/SMTP.php';
 
     //Create a new PHPMailer instance
     $mail = new PHPMailer(true);
@@ -33,7 +31,7 @@ if (isset($_POST['enviarForm'])) {
     // - 465 for SMTP with implicit TLS, a.k.a. RFC8314 SMTPS or
     // - 587 for SMTP+STARTTLS
     $mail->Port = 465;
-    //$mail->SMTPSecure = "ssl";
+
     //Set the encryption mechanism to use:
     // - SMTPS (implicit TLS on port 465) or
     // - STARTTLS (explicit TLS on port 587)
@@ -43,10 +41,10 @@ if (isset($_POST['enviarForm'])) {
     $mail->SMTPAuth = true;
 
     //Username to use for SMTP authentication - use full email address for gmail
-    $mail->Username = 'hlcvictormartinez@gmail.com';
+    $mail->Username = 'xxxxxxxxxxxxx@gmail.com';
 
     //Password to use for SMTP authentication
-    $mail->Password = 'relomxexrxfrskwr'; // <-- Contraseñas de aplicaciones de google
+    $mail->Password = 'xxxxxxxxxxx'; // <-- Contraseñas de aplicaciones de google
 
     //Set who the message is to be sent from
     //Note that with gmail you can only use your account address (same as `Username`)
@@ -59,7 +57,7 @@ if (isset($_POST['enviarForm'])) {
         //$mail->addReplyTo('replyto@example.com', 'First Last');
 
     //Set who the message is to be sent to
-    $mail->addAddress('victormaresc@gmail.com', 'Victor Martinez');
+    $mail->addAddress('xxxxxxx@xxxx.com', 'Nombre Apellidos');
 
     //Set the subject line
     $mail->Subject = 'PHPMailer GMail SMTP test';
@@ -80,5 +78,4 @@ if (isset($_POST['enviarForm'])) {
     } else {
         echo 'Message sent!';
     }
-
-}
+?>

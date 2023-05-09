@@ -2,24 +2,49 @@
 include_once('./clases/grupo.php');
 include_once('./clases/horario.php');
 include_once('./clases/evento.php');
+include_once('./clases/inscrito.php');
+include_once('./clases/tarifa.php');
+include_once('./clases/monitor.php');
 
 $horario = null;
 if ($_SESSION['tipo'] == 'cliente') {
     $especialidad = Grupo::obtenerNombreGrupo($_SESSION['grupo']);
-    $horario = Horario::verHorarioCodGrupo($_SESSION['grupo']);
+
     $listadoEventos = Evento::listadoEventosXCodGrupo($especialidad);
+    $eventosDeUsuario = Inscrito::saberInscritosXDni($_SESSION['usuario']);
+    $estaComprado = false;
+    $descuentoHacer = Tarifa::sacarDescuento($_SESSION['tarifa']);
+    $horario = Horario::verHorarioCodGrupo($_SESSION['grupo']);
 } else {
     $especialidad = $_SESSION['especialidad'];
+    $codEspecialidad = Grupo::obtenerIdGrupo($especialidad);
+    $infoMonitor = Monitor::listaMonitor($_SESSION['usuario']);
+    $horario = Horario::verHorarioCodGrupoYMonitor($_SESSION['usuario']);
 }
 
+include_once('./paginas/modales/createClase.php');
 ?>
 <!-- Scrollable modal -->
 <div class="modal modal-xl fade modal-dialog-scrollable" id="horario">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="Horario">Horario para el grupo <?php echo $especialidad ?></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <?php
+                if ($_SESSION['tipo'] == 'cliente') { ?>
+                    <h5 class="modal-title" id="Horario">Horario para el grupo <?php echo $especialidad ?></h5>
+                <?php  } else { ?>
+                    <h5 class="modal-title" id="Horario">Buenas <?php echo $infoMonitor['nombre'] . " " . $infoMonitor['apellidos'] . ". Esta es tu planificación" ?> </h5>
+                <?php }
+                ?>
+
+                <?php
+                if ($_SESSION['tipo'] == 'monitor') { ?>
+                    <button type="button" name="crearClase" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#crearClase">Añadir Clase</button>
+
+                <?php } else { ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <?php }
+                ?>
             </div>
             <!-- EL BODY -->
             <div class="modal-body">
@@ -31,7 +56,14 @@ if ($_SESSION['tipo'] == 'cliente') {
                                 <th scope="col">Dia</th>
                                 <th scope="col">Hora_inicio</th>
                                 <th scope="col">Hora_fin</th>
-                                <th scope="col">Monitor</th>
+                                <?php
+                                if ($_SESSION['tipo'] == 'cliente') { ?>
+                                    <th scope="col">Monitor</th>
+                                <?php } else { ?>
+                                    <th scope="col">Acciones</th>
+                                <?php }
+                                ?>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -41,7 +73,14 @@ if ($_SESSION['tipo'] == 'cliente') {
                                     <th scope="row"><?php echo $horario['dia'] ?></th>
                                     <td><?php echo $horario['hora_inicio'] ?></td>
                                     <td><?php echo $horario['hora_fin'] ?></td>
-                                    <td><?php echo $horario['nombre'] ?> </td>
+                                    <?php
+                                    if ($_SESSION['tipo'] == 'cliente') { ?>
+                                        <td><?php echo $horario['nombre'] ?> </td>
+                                    <?php } else { ?>
+
+                                    <?php }
+                                    ?>
+
                                 </tr>
                             <?php
                             } ?>
@@ -52,53 +91,72 @@ if ($_SESSION['tipo'] == 'cliente') {
                     echo "<p>No hay horario disponible</p>";
                 }
                 ?>
-
-                <h5 class="modal-title" id="Horario">Eventos para el grupo <?php echo $especialidad ?></h5>
                 <?php
-                if ($listadoEventos != null) { ?>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">Dia</th>
-                                <th scope="col">Hora</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Lugar</th>
-                                <th scope="col">Comprar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <form action="./paginas/comprarEventos.php" method="post">
-                                <?php
-                                foreach ($listadoEventos as $listadoEventos) { ?>
-                                    <tr>
-                                        <th scope="row"><?php echo $listadoEventos['dia'] ?></th>
-                                        <td><?php echo $listadoEventos['hora'] ?></td>
-                                        <td><?php echo $listadoEventos['precio'] ?></td>
-                                        <td><?php echo $listadoEventos['lugar'] ?> </td>
-                                        <?php
-                                        if (isset($_SESSION['carrito']['eventos'])) {
-                                            if (in_array($listadoEventos['id'], $_SESSION['carrito']['eventos'])) {
+                if ($_SESSION['tipo'] == 'cliente') {
 
-                                        ?>
-                                                <td><button disabled type="submit" name="aniadidoCarrito" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Añadido al Carrito</button></td>
+                ?>
+                    <h5 class="modal-title" id="Horario">Eventos para el grupo <?php echo $especialidad ?></h5>
+                    <?php
+                    if ($listadoEventos != null) { ?>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Dia</th>
+                                    <th scope="col">Hora</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Precio Con Descuento</th>
+                                    <th scope="col">Lugar</th>
+                                    <th scope="col">Comprar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <form action="./paginas/comprarEventos.php" method="post">
+                                    <?php
+                                    foreach ($listadoEventos as $listadoEventos) {
+                                        $precioADescontar = $listadoEventos['precio'] - $listadoEventos['precio'] * $descuentoHacer['descuento'] / 100; ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $listadoEventos['dia'] ?></th>
+                                            <td><?php echo $listadoEventos['hora'] ?></td>
+                                            <td><?php echo $listadoEventos['precio'] . "€" ?></td>
+                                            <td><?php echo $precioADescontar . "€" ?></td>
+                                            <td><?php echo $listadoEventos['lugar'] ?> </td>
+                                            <?php
+                                            foreach ($eventosDeUsuario as $inscrito) {
+                                                if ($inscrito['id_evento'] == $listadoEventos['id']) {
+                                            ?>
+                                                    <td><button disabled type="submit" name="comprado" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprado</button></td>
+                                                    <?php
+                                                    $estaComprado = true;
+                                                }
+                                            }
+                                            if (!$estaComprado) {
+                                                if (isset($_SESSION['carrito']['eventos'])) {
+                                                    if (in_array($listadoEventos['id'], $_SESSION['carrito']['eventos'])) {
 
-                                            <?php } else { ?>
-                                                <td><button type="submit" name="comprarEvento" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprar</button></td>
-                                            <?php  }
-                                        } else { ?>
-                                            <td><button type="submit" name="comprarEvento" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprar</button></td>
-                                        <?php }
-                                        ?>
+                                                    ?>
+                                                        <td><button disabled type="submit" name="aniadidoCarrito" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Añadido al Carrito</button></td>
 
-                                    </tr>
-                                <?php
-                                } ?>
-                            </form>
-                        </tbody>
-                    </table>
+                                                    <?php } else { ?>
+                                                        <td><button type="submit" name="comprarEvento" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprar</button></td>
+                                                    <?php  }
+                                                } else { ?>
+                                                    <td><button type="submit" name="comprarEvento" value="<?php echo $listadoEventos['id'] ?>" class="btn btn-success">Comprar</button></td>
+                                            <?php }
+                                            } ?>
+
+
+
+                                        </tr>
+                                    <?php
+                                        $estaComprado = false;
+                                    } ?>
+                                </form>
+                            </tbody>
+                        </table>
                 <?php
-                } else {
-                    echo "<p>No hay Eventos disponibles</p>";
+                    } else {
+                        echo "<p>No hay Eventos disponibles</p>";
+                    }
                 }
                 ?>
 

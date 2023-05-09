@@ -36,4 +36,17 @@ class Grupo
         }
         return $grupo;
     }
+    public static function obtenerIdGrupo($nombreGrupo){
+        $grupo = false;
+        try {
+            $conectar = new Conexion();
+        } catch (Exception $ex) {
+        }
+        $existeGrupo= $conectar->query("Select codigo from grupo where especialidad='$nombreGrupo';");
+        if ($existeGrupo->rowCount() > 0) {
+            $infoGrupo= $existeGrupo->fetch(PDO::FETCH_ASSOC);
+            $grupo = $infoGrupo['codigo'];
+        }
+        return $grupo;
+    }
 }

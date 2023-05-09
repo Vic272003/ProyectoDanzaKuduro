@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once('./paginas/modales/modalCarrito.php');
 ?>
 <img src="./css/imagenes/logo.png" alt="LogoDanzaKuduro">
@@ -13,16 +13,18 @@ include_once('./paginas/modales/modalCarrito.php');
         <?php
         if (!isset($_SESSION['usuario'])) { ?>
             <a href="paginas/inicioSesion.php" alt="registrar"><i class="icofont-user-alt-3"></i></a>
-        <?php
-        } else { 
-            if(empty($_SESSION['carrito'])){
-            ?>
-            <button type="button" id="carritoVacio" name="carrito" data-bs-toggle="modal" data-bs-target="#carrito"><i class="icofont-shopping-cart"></i></button>
-        <?php
-            }else{ ?>
-                <a><button type="button" id="carritoLleno" name="carrito" data-bs-toggle="modal" data-bs-target="#carrito"><i class="icofont-shopping-cart"></i></button></a>
             <?php
+        } else {
+            if ($_SESSION['tipo'] != 'monitor') {
+                if (empty($_SESSION['carrito'])) {
+            ?>
+                    <button type="button" id="carritoVacio" name="carrito" data-bs-toggle="modal" data-bs-target="#carrito"><i class="icofont-shopping-cart"></i></button>
+                <?php
+                } else { ?>
+                    <a><button type="button" id="carritoLleno" name="carrito" data-bs-toggle="modal" data-bs-target="#carrito"><i class="icofont-shopping-cart"></i></button></a>
+        <?php
 
+                }
             }
         }
         ?>
@@ -33,15 +35,32 @@ include_once('./paginas/modales/modalCarrito.php');
             <li>
                 <a href="#">Inicio</a>
             </li>
-            <li>
-                <a href="#">Conocenos</a>
-            </li>
+            <?php
+            if (isset($_SESSION['usuario']) && $_SESSION['tipo'] != 'monitor') { ?>
+                <li>
+                    <a href="#">Conocenos</a>
+                </li>
+            <?php } elseif (!isset($_SESSION['usuario'])) { ?>
+                <li>
+                    <a href="#">Conocenos</a>
+                </li>
+            <?php }
+            ?>
             <li>
                 <a href="#contactanos">Contacto</a>
             </li>
-            <li>
-                <a href="#">Planes</a>
-            </li>
+            <?php
+            if (isset($_SESSION['usuario']) && $_SESSION['tipo'] != 'monitor') { ?>
+                <li>
+                    <a href="#tarifas">Planes</a>
+                </li>
+            <?php } elseif (!isset($_SESSION['usuario'])) { ?>
+                <li>
+                    <a href="#tarifas">Planes</a>
+                </li>
+            <?php }
+            ?>
+
             <!-- Esto sale  -->
             <?php if (isset($_SESSION['usuario'])) { ?>
                 <li>

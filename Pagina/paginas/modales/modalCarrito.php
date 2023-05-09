@@ -38,14 +38,21 @@ include_once('./clases./inscrito.php');
 
                 <?php
                 if (!empty($_SESSION['carrito'])) {
+                    $_SESSION['carritoVacio'] = false;
                     $carrito = $_SESSION['carrito'];
+                    $descuento = Tarifa::sacarDescuento($_SESSION['tarifa']);
+
 
                     foreach ($carrito as $key => $value) {
                         if ($key == 'eventos') {
                             echo "<p>Eventos:</p>";
                             foreach ($value as $evento) {
+                                
                                 $infoEventos = Evento::listaEvento($evento);
-                                echo "<p>1 X $infoEventos[dia] $infoEventos[lugar] $infoEventos[precio]€</p>";
+
+                                $precioReducido=$infoEventos['precio']-$infoEventos['precio']*$descuento['descuento']/100;
+
+                                echo "<p>1 X $infoEventos[dia] $infoEventos[lugar] $precioReducido €</p>";
                             }
                         } else {
                             echo "<p>Tarifas:</p>";

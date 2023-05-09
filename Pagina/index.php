@@ -7,20 +7,6 @@ if (empty($_SESSION['tipo'])) {
 
 include_once('./clases/tarifa.php');
 
-if (isset($_SESSION['usuario'])) {
-
-    include_once('./paginas/horario.php');
-}
-
-
-
-/*
-if (isset($_SESSION['usuario'])) {
-    $sesion = true;
-} else {
-    $sesion = false;
-}
-*/
 if (isset($_POST['closeSesion'])) {
     session_destroy();
     header('Location:./index.php');
@@ -46,14 +32,48 @@ $todasTarifas = Tarifa::listarTarifas();
 </head>
 
 <body>
+
     <div id="manchaRosa">
         <img src="./css/imagenes/manchaRosa.png" alt="" srcset="">
     </div>
+
     <header>
+        <?php
+        require_once('./paginas/menu.php')
+        ?>
+    </header>
+
+    <?php
+    if (isset($_SESSION['carritoVacio'])) {
+        if ($_SESSION['carritoVacio']) { ?>
+            <div style="margin-top: -10px;" class=" alert z-3  alert-success d-flex justify-content-between align-items-center" role="alert">
+                <span>Se ha vaciado el carrito correctamente</span>
+                <button type="button" class=" btn-close ms-5" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
         <?php
-        require_once('./paginas/menu.php')  ?>
-    </header>
+            unset($_SESSION['carritoVacio']);
+        } ?>
+
+    <?php }
+    ?>
+    <?php
+    if (isset($_SESSION['carritoComprado'])) {
+        if ($_SESSION['carritoComprado']) { ?>
+            <div style="margin-top: -10px;" class="alert z-3 alert-success d-flex justify-content-between align-items-center" role="alert">
+                <span>Se ha comprado todo el carrito correctamente</span>
+                <button type="button" class="btn-close ms-5" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        <?php
+            unset($_SESSION['carritoComprado']);
+        } ?>
+
+    <?php }
+    ?>
+
+
+
 
     <div class="ralla"></div>
 
@@ -67,43 +87,59 @@ $todasTarifas = Tarifa::listarTarifas();
 
     <?php if ($_SESSION['tipo'] != 'monitor') { ?>
         <section id="tarifas">
-            <h1>Nuestros <span>Planes</span> Más Fascinantes</h1>
+            <h1>Nuestros Planes Más Fascinantes</h1>
             <div class="diferentesPlanes">
                 <?php
                 include_once('./paginas/tarifasConRegistro.php');
                 ?>
             </div>
         </section>
-    <?php } ?>
+    <?php }
+    ?>
+
     <section id="contacto">
         <h1 id="contactanos">Contáctanos</h1>
-        <form action="./paginas/correo.php" method="post">
-            <div class="grupo">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+
+        <form name="formularioContacto" class="container" action="./paginas/correo.php" method="post">
+            <div class="row">
+                <div class="col grupo">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="col grupo">
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" required>
+                </div>
             </div>
-            <div class="grupo">
-                <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos" name="apellidos" required>
+            <div class="row">
+                <div class="col grupo">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                </div>
+                <div class="col grupo">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
             </div>
-            <div class="grupo">
-                <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" name="telefono" required>
-            </div>
-            <div class="grupo">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="grupo">
-                <label for="asunto">Asunto:</label>
-                <input type="text" id="asunto" name="asunto" required>
+            <div class="row">
+                <div class="col grupo">
+                    <label for="asunto">Mensaje:</label>
+                    <textarea name="asunto" id="asunto"  rows="3"></textarea>
+                    <!-- <input type="text" id="asunto" name="asunto" required> -->
+                </div>
             </div>
             <button name="enviarForm" type="submit">Enviar</button>
 
         </form>
-    </section><?php
-                
-                ?>
+
+    </section>
+
+    <?php
+    if (isset($_SESSION['usuario'])) {
+
+        include_once('./paginas/horario.php');
+    }
+    ?>
     <script src="./css/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 

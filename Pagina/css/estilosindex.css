@@ -286,7 +286,7 @@ div .modal{
 
 #contacto form{
   background: #fff;
-  width: 40%;
+  width: 70%;
   padding: 10px 0;
   border-radius: 10px;
   box-shadow: 0 0 6px 0 rgba(255, 255, 255, 0.8);
@@ -296,14 +296,14 @@ div .modal{
 }
 #contacto form .grupo{
   position: relative;
-  margin: 45px;
+  margin: 20px 45px;
   border-bottom: 1px solid black;
 }
 
-#contacto input{
+#contacto input,textarea{
   background: none;
   font-size: 18px;
-  padding: 10px 10px 10px 5px;
+  padding: 10px 0;
   display: block;
   width: 100%;
   border:none;
