@@ -21,9 +21,11 @@ if ($_SESSION['tipo'] == 'cliente') {
     $infoMonitor = Monitor::listaMonitor($_SESSION['usuario']);
     $horario = Horario::verHorarioCodGrupoYMonitor($_SESSION['usuario']);
 }
-
+include_once('./paginas/modales/actualizarClase.php');
 include_once('./paginas/modales/createClase.php');
+
 ?>
+
 <!-- Scrollable modal -->
 <div class="modal modal-xl fade modal-dialog-scrollable" id="horario">
     <div class="modal-dialog">
@@ -77,7 +79,7 @@ include_once('./paginas/modales/createClase.php');
                                     if ($_SESSION['tipo'] == 'cliente') { ?>
                                         <td><?php echo $horario['nombre'] ?> </td>
                                     <?php } else { ?>
-
+                                        <td><button data-dia="<?php echo $horario['dia']?>" data-inicio="<?php echo $horario['hora_inicio']?>" data-fin="<?php echo $horario['hora_fin']?>" type="button" name="botonModClase" class="icono botonModClase" style="background-color: transparent;margin-left:20px" data-bs-toggle="modal" data-bs-target="#actualizarClase" ><i class="icofont-options icono"></i></button></td>
                                     <?php }
                                     ?>
 

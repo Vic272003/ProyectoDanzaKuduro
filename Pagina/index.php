@@ -14,7 +14,6 @@ if (isset($_POST['closeSesion'])) {
 
 $todasTarifas = Tarifa::listarTarifas();
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +26,7 @@ $todasTarifas = Tarifa::listarTarifas();
     <link rel="stylesheet" href="./css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="./css/estilosindex.css">
     <link rel="stylesheet" href="./css/icofont/icofont.min.css">
+    <script src="./css/controlarMenu.js" type="text/javascript"></script>
 
     <title>DanzaKuduro</title>
 </head>
@@ -67,6 +67,18 @@ $todasTarifas = Tarifa::listarTarifas();
 
         <?php
             unset($_SESSION['carritoComprado']);
+        } ?>
+
+    <?php }
+    if (isset($_SESSION['funciones'])) {
+        if ($_SESSION['funciones']) { ?>
+            <div style="margin-top: -10px;" class="alert z-3 alert-success d-flex justify-content-between align-items-center" role="alert">
+                <span>Se ha hecho correctamente</span>
+                <button type="button" class="btn-close ms-5" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        <?php
+            unset($_SESSION['funciones']);
         } ?>
 
     <?php }
@@ -125,7 +137,6 @@ $todasTarifas = Tarifa::listarTarifas();
                 <div class="col grupo">
                     <label for="asunto">Mensaje:</label>
                     <textarea name="asunto" id="asunto"  rows="3"></textarea>
-                    <!-- <input type="text" id="asunto" name="asunto" required> -->
                 </div>
             </div>
             <button name="enviarForm" type="submit">Enviar</button>
