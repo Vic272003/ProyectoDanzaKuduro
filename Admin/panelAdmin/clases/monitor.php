@@ -32,6 +32,7 @@ class Monitor
      */
     public static function listadoMonitoresBaja()
     {
+        $infoMonitor=false;
         try {
             $conectar = new Conexion();
             $conectar->exec("SET FOREIGN_KEY_CHECKS = 0");

@@ -20,8 +20,8 @@ if (isset($_POST['actualizaCliente'])) {
         $nombre = validar_cadena($_POST['nombre']);         // Guardamos los datos en una variable
         $apellidos = validar_cadena($_POST['apellidos']);   //
         $grupo = validar_cadena($_POST['grupoActualizar']);   //
-        $password=password_hash(validar_cadena($_POST['pass']), PASSWORD_DEFAULT);
-        $prueba = Cliente::actualizarCliente($dni, $nombre, $apellidos,$grupo,$password); //Llamamos a la función de la clase Cliente
+        $password = password_hash(validar_cadena($_POST['pass']), PASSWORD_DEFAULT);
+        $prueba = Cliente::actualizarCliente($dni, $nombre, $apellidos, $grupo, $password); //Llamamos a la función de la clase Cliente
         if ($prueba) { ?>
             <div class="alert alert-success mt-0" role="alert">
                 Cliente actualizado correctamente!
@@ -33,7 +33,7 @@ if (isset($_POST['actualizaCliente'])) {
             Algo ha salido mal, asegurese de que los datos son correctos!
             <button type="button" class="btn-close ms-5" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php 
+    <?php
     }
 }
 
@@ -57,7 +57,7 @@ if (isset($_POST['darAlta'])) {
             Cliente dado de alta de nuevo correctamente!
             <button type="button" class="btn-close ms-5" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+<?php
     }
 }
 //Incluimos el fichero crearCliente
@@ -119,8 +119,8 @@ $valorApellidos;
                                         }
                                         if ($atributo == "apellidos") {
                                             $valorApellidos = $valor;
-                                        } 
-                                        ?>
+                                        }
+                                    ?>
 
                                         <td><?php echo $valor ?></td>
 
@@ -130,7 +130,7 @@ $valorApellidos;
                                         <input type="hidden" value="<?php echo $valorDniAlta ?>" name="sacarDniAlta">
                                         <td>
                                             <!-- Dependiendo de cuál pulse, se harán modificaciones o se eliminará de activos -->
-                                            <button  data-dni="<?php echo $valorDniAlta;?>" data-nombre="<?php echo $valorNombre;?>" data-apellidos="<?php echo $valorApellidos;?>" type="button" name="botonMod" class="icono botonMod" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#actualizararCliente"><i class="icofont-options icono"></i></button>
+                                            <button data-dni="<?php echo $valorDniAlta; ?>" data-nombre="<?php echo $valorNombre; ?>" data-apellidos="<?php echo $valorApellidos; ?>" type="button" name="botonMod" class="icono botonMod" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#actualizararCliente"><i class="icofont-options icono"></i></button>
                                             <button type="submit" name="botonElim" class="icono" style="background-color: transparent;"><i class="icofont-ui-delete borrar icono" style="margin-left: 20px;"></i></button>
                                         </td>
                                     </form>
@@ -153,58 +153,65 @@ $valorApellidos;
                     <h4 class="card-title mb-0">Clientes dados de Baja</h4>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped">
-                        <thead class="table-light">
-                            <tr>
-                                <?php   
-                                $contadorFor = 0; //Reiniciamos el contador
-                                //Hacemos un forEach para recoger una sola vez los atributos del cliente
-                                foreach ($listadoClientesBaja as $clienteBaja) {
-
-                                    if ($contadorFor == 0) {
-                                        //Hacemos un segundo foreach para recoger su atributo
-                                        foreach ($clienteBaja as $atributo => $valor) { ?>
-                                            <th scope="col"><?php echo strtoupper($atributo) ?></th>
-                                <?php
-
-                                        }
-                                    }
-                                    $contadorFor = 100;
-                                }
-                                ?>
-                                <th scope="col">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            //Este foreach recorre los diferentes clientes
-                            foreach ($listadoClientesBaja as $clienteBaja) { ?>
+                    <?php
+                    if ($listadoClientesBaja != false) {
+                    ?>
+                        <table class="table table-striped">
+                            <thead class="table-light">
                                 <tr>
                                     <?php
-                                    //Este segundo foreach mostrará el valor de cada cliente
-                                    foreach ($clienteBaja as $atributo => $valor) {
-                                        if ($atributo == "dni") {
-                                            $valorDniBaja = $valor;
+                                    $contadorFor = 0; //Reiniciamos el contador
+                                    //Hacemos un forEach para recoger una sola vez los atributos del cliente
+
+
+
+                                    foreach ($listadoClientesBaja as $clienteBaja) {
+
+                                        if ($contadorFor == 0) {
+                                            //Hacemos un segundo foreach para recoger su atributo
+                                            foreach ($clienteBaja as $atributo => $valor) { ?>
+                                                <th scope="col"><?php echo strtoupper($atributo) ?></th>
+                                    <?php
+
+                                            }
                                         }
+                                        $contadorFor = 100;
+                                    }
                                     ?>
-                                        <td><?php echo $valor ?></td>
-
-                                    <?php } ?>
-                                    <form method="post">
-                                        <!-- Este input recoge el dni de cada cliente para luego poder recogerlo -->
-                                        <input type="hidden" value="<?php echo $valorDniBaja ?>" name="sacarDniBaja">
-                                        <td>
-                                            <!-- Si se pulsa se llamará al fichero darAltaCliente.php -->
-                                            <button type="submit" name="darAlta" class="btn btn-success btn-sm">Dar de Alta</button>
-                                        </td>
-                                    </form>
+                                    <th scope="col">ACCIONES</th>
                                 </tr>
-                            <?php
-                            }
-                            ?>
+                            </thead>
+                            <tbody>
+                                <?php
+                                //Este foreach recorre los diferentes clientes
+                                foreach ($listadoClientesBaja as $clienteBaja) { ?>
+                                    <tr>
+                                        <?php
+                                        //Este segundo foreach mostrará el valor de cada cliente
+                                        foreach ($clienteBaja as $atributo => $valor) {
+                                            if ($atributo == "dni") {
+                                                $valorDniBaja = $valor;
+                                            }
+                                        ?>
+                                            <td><?php echo $valor ?></td>
 
-                        </tbody>
-                    </table>
+                                        <?php } ?>
+                                        <form method="post">
+                                            <!-- Este input recoge el dni de cada cliente para luego poder recogerlo -->
+                                            <input type="hidden" value="<?php echo $valorDniBaja ?>" name="sacarDniBaja">
+                                            <td>
+                                                <!-- Si se pulsa se llamará al fichero darAltaCliente.php -->
+                                                <button type="submit" name="darAlta" class="btn btn-success btn-sm">Dar de Alta</button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                    <?php } ?>
                 </div>
             </div>
             <!-- Fin de la tabla clientes dados de baja -->

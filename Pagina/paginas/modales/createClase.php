@@ -10,16 +10,17 @@
                 <div class="container-fluid">
                 <form action="./paginas/modales/funcionCreateClase.php" method="post">
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="dia">Dia</label>
                             <input type="date" class="form-control" name="diaCrear" id="dia" required>
                         </div>
-                        <div class="form-group col-md-6">
+                        
+                    </div>
+                    <div class="row">
+                    <div class="form-group col-md-6">
                             <label for="inicio">Hora Inicio</label>
                             <input type="time" class="form-control" name="inicioCrear" id="inicio" required>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="form-group col-md-6">
                             <label for="fin">Hora Fin</label>
                             <input type="time" class="form-control" name="finCrear" id="fin">

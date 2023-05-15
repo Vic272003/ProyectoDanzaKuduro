@@ -3,8 +3,6 @@ include_once("../funciones.inc.php");
 include_once("../clases/grupo.php");
 if (isset($_POST['crearEvento'])) {
     if (
-        preg_match($patternDia, $_POST['diaCrear']) &&
-        preg_match($patternHora, $_POST['horaCrear']) &&
         preg_match($patternLugar, $_POST['lugarCrear'])
     ) {
         $dia = validar_cadena($_POST['diaCrear']);                                          //
@@ -51,11 +49,11 @@ if (isset($_POST['crearEvento'])) {
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="dia">DIA</label>
-                                <input type="text" class="form-control" name="diaCrear" id="dia" required>
+                                <input type="date" class="form-control" name="diaCrear" id="dia" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="hora">HORA</label>
-                                <input type="text" class="form-control" name="horaCrear" id="hora" required>
+                                <input type="time" class="form-control" name="horaCrear" id="hora" required>
                             </div>
                         </div>
                         <div class="row">

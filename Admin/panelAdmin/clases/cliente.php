@@ -30,6 +30,7 @@ class Cliente{
      * Lista los clientes que están dados de baja
      */
     public static function listadoClientesBaja(){
+        $infoClientes=false;
         try {
             $conectar=new Conexion();
             $conectar->exec("SET FOREIGN_KEY_CHECKS = 0");

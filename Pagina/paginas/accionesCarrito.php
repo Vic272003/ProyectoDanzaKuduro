@@ -1,9 +1,9 @@
 <?php
 session_start();
-include_once('../clases./evento.php');
-include_once('../clases./cliente.php');
-include_once('../clases./inscrito.php');
-include_once('../clases./tarifa.php');
+include_once('../clases/evento.php');
+include_once('../clases/cliente.php');
+include_once('../clases/inscrito.php');
+include_once('../clases/tarifa.php');
 
 if (isset($_POST['vaciarCarrito'])) {
     unset($_SESSION['carrito']['tarifa']);

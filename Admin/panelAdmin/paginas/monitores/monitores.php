@@ -28,7 +28,7 @@ if (isset($_POST['darAlta'])) {
             Monitor dado de alta de nuevo correctamente!
             <button type="button" class="btn-close ms-5" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php
+<?php
     }
 }
 //Incluimos el fichero crearMonitor
@@ -92,7 +92,7 @@ $valorApellidos;
                                         if ($atributo == "apellidos") {
                                             $valorApellidos = $valor;
                                         }
-                                        ?>
+                                    ?>
 
                                         <td><?php echo $valor ?></td>
 
@@ -102,7 +102,7 @@ $valorApellidos;
                                         <input type="hidden" value="<?php echo $valorDniAlta ?>" name="sacarDniAlta">
                                         <td>
                                             <!-- Dependiendo de cuál pulse, se harán modificaciones o se eliminará de activos -->
-                                            <button  data-dni="<?php echo $valorDniAlta;?>" data-nombre="<?php echo $valorNombre;?>" data-apellidos="<?php echo $valorApellidos;?>" type="button" name="botonMod" class="icono botonMod" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#actualizararMonitor"><i class="icofont-options icono"></i></button>
+                                            <button data-dni="<?php echo $valorDniAlta; ?>" data-nombre="<?php echo $valorNombre; ?>" data-apellidos="<?php echo $valorApellidos; ?>" type="button" name="botonMod" class="icono botonMod" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#actualizararMonitor"><i class="icofont-options icono"></i></button>
                                             <button type="submit" name="botonElim" class="icono" style="background-color: transparent;"><i class="icofont-ui-delete borrar icono" style="margin-left: 20px;"></i></button>
                                         </td>
                                     </form>
@@ -125,74 +125,76 @@ $valorApellidos;
                     <h4 class="card-title mb-0">Monitores dados de Baja</h4>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped">
-                        <thead class="table-light">
-                            <tr>
-                                <?php
-                                $contadorFor = 0; //Reiniciamos el contador
-                                //Hacemos un forEach para recoger una sola vez los atributos del monitor
-                                foreach ($listadoMonitorsBaja as $MonitorBaja) {
+                    <?php
+                    if ($listadoMonitorsBaja != false) {
 
-                                    if ($contadorFor == 0) {
-                                        //Hacemos un segundo foreach para recoger su atributo
-                                        foreach ($MonitorBaja as $atributo => $valor) { ?>
-                                            <th scope="col"><?php echo strtoupper($atributo) ?></th>
-                                <?php
 
-                                        }
-                                    }
-                                    $contadorFor = 100;
-                                }
-                                ?>
-                                <th scope="col">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            //Este foreach recorre los diferentes Monitors
-                            foreach ($listadoMonitorsBaja as $MonitorBaja) { ?>
+                    ?>
+                        <table class="table table-striped">
+                            <thead class="table-light">
                                 <tr>
                                     <?php
-                                    //Este segundo foreach mostrará el valor de cada monitor
-                                    foreach ($MonitorBaja as $atributo => $valor) {
-                                        if ($atributo == "dni") {
-                                            $valorDniBaja = $valor;
+                                    $contadorFor = 0; //Reiniciamos el contador
+                                    //Hacemos un forEach para recoger una sola vez los atributos del monitor
+                                    foreach ($listadoMonitorsBaja as $MonitorBaja) {
+
+                                        if ($contadorFor == 0) {
+                                            //Hacemos un segundo foreach para recoger su atributo
+                                            foreach ($MonitorBaja as $atributo => $valor) {
+                                                if ($atributo != 'especialidad') { ?>
+                                                    <th scope="col"><?php echo strtoupper($atributo) ?></th>
+                                                <?php }
+                                                ?>
+
+                                    <?php
+
+                                            }
                                         }
+                                        $contadorFor = 100;
+                                    }
                                     ?>
-                                        <td><?php echo $valor ?></td>
-
-                                    <?php } ?>
-                                    <form method="post">
-                                        <!-- Este input recoge el dni de cada monitor para luego poder recogerlo -->
-                                        <input type="hidden" value="<?php echo $valorDniBaja ?>" name="sacarDniBaja">
-                                        <td>
-                                            <!-- Si se pulsa se llamará al fichero darAltaMonitor.php -->
-                                            <button type="submit" name="darAlta" class="btn btn-success btn-sm">Dar de Alta</button>
-                                        </td>
-                                    </form>
+                                    <th scope="col">ACCIONES</th>
                                 </tr>
-                            <?php
-                            }
-                            ?>
+                            </thead>
+                            <tbody>
+                                <?php
+                                //Este foreach recorre los diferentes Monitors
+                                foreach ($listadoMonitorsBaja as $MonitorBaja) { ?>
+                                    <tr>
+                                        <?php
+                                        //Este segundo foreach mostrará el valor de cada monitor
+                                        foreach ($MonitorBaja as $atributo => $valor) {
+                                            if ($atributo == "dni") {
+                                                $valorDniBaja = $valor;
+                                            }
+                                            if ($atributo != 'especialidad') { ?>
+                                                <td><?php echo $valor ?></td>
+                                            <?php }
+                                            ?>
 
-                        </tbody>
-                    </table>
+
+                                        <?php } ?>
+                                        <form method="post">
+                                            <!-- Este input recoge el dni de cada monitor para luego poder recogerlo -->
+                                            <input type="hidden" value="<?php echo $valorDniBaja ?>" name="sacarDniBaja">
+                                            <td>
+                                                <!-- Si se pulsa se llamará al fichero darAltaMonitor.php -->
+                                                <button type="submit" name="darAlta" class="btn btn-success btn-sm">Dar de Alta</button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                    <?php } ?>
                 </div>
             </div>
             <!-- Fin de la tabla Monitors dados de baja -->
         </div>
         <!-- Fin de la fila -->
-    </div>
-    <div class="row justify-content-center mt-5">
-        <div class="col-8">
-            <?php
-            //Si se pulsa el botón llamará a esa página
-            // if (isset($_POST['botonMod'])) {
-            //     include_once('./monitores/actualizarMonitor.php');
-            // }
-
-            ?>
-        </div>
     </div>
 </div>
 <?php

@@ -48,6 +48,7 @@ class Gestor
      */
     public static function listadoGestoresBaja()
     {
+        $infoGestor=false;
         try {
             $conectar = new Conexion();
             $conectar->exec("SET FOREIGN_KEY_CHECKS = 0");

@@ -123,8 +123,8 @@ if ($_SESSION['dni'] == '00000000A') {
                                             }
                                             if ($atributo == "apellidos") {
                                                 $valorApellidos = $valor;
-                                            } 
-                                            ?>
+                                            }
+                                        ?>
 
                                             <td><?php echo $valor ?></td>
 
@@ -134,7 +134,7 @@ if ($_SESSION['dni'] == '00000000A') {
                                             <input type="hidden" value="<?php echo $valorDniAlta ?>" name="sacarDniAlta">
                                             <td>
                                                 <!-- Dependiendo de cuál pulse, se harán modificaciones o se eliminará de activos -->
-                                                <button  data-dni="<?php echo $valorDniAlta;?>" data-nombre="<?php echo $valorNombre;?>" data-apellidos="<?php echo $valorApellidos;?>" type="button" name="botonMod" class="icono botonMod" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#actualizararGestor"><i class="icofont-options icono"></i></button>
+                                                <button data-dni="<?php echo $valorDniAlta; ?>" data-nombre="<?php echo $valorNombre; ?>" data-apellidos="<?php echo $valorApellidos; ?>" type="button" name="botonMod" class="icono botonMod" style="background-color: transparent;" data-bs-toggle="modal" data-bs-target="#actualizararGestor"><i class="icofont-options icono"></i></button>
                                                 <button type="submit" name="botonElim" class="icono" style="background-color: transparent;"><i class="icofont-ui-delete borrar icono" style="margin-left: 20px;"></i></button>
                                             </td>
                                         </form>
@@ -157,77 +157,71 @@ if ($_SESSION['dni'] == '00000000A') {
                         <h4 class="card-title mb-0">Gestores dados de Baja</h4>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
-                            <thead class="table-light">
-                                <tr>
-                                    <?php
-                                    $contadorFor = 0; //Reiniciamos el contador
-                                    //Hacemos un forEach para recoger una sola vez los atributos del gestor
-                                    foreach ($listadoGestoresBaja as $GestorBaja) {
+                        <?php
+                        if ($listadoGestoresBaja != false) {
 
-                                        if ($contadorFor == 0) {
-                                            //Hacemos un segundo foreach para recoger su atributo
-                                            foreach ($GestorBaja as $atributo => $valor) { ?>
-                                                <th scope="col"><?php echo strtoupper($atributo) ?></th>
-                                    <?php
 
-                                            }
-                                        }
-                                        $contadorFor = 100;
-                                    }
-                                    ?>
-                                    <th scope="col">ACCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                //Este foreach recorre los diferentes Gestors
-                                foreach ($listadoGestoresBaja as $GestorBaja) { ?>
+                        ?>
+                            <table class="table table-striped">
+                                <thead class="table-light">
                                     <tr>
                                         <?php
-                                        //Este segundo foreach mostrará el valor de cada gestor
-                                        foreach ($GestorBaja as $atributo => $valor) {
-                                            if ($atributo == "dni") {
-                                                $valorDniBaja = $valor;
+                                        $contadorFor = 0; //Reiniciamos el contador
+                                        //Hacemos un forEach para recoger una sola vez los atributos del gestor
+                                        foreach ($listadoGestoresBaja as $GestorBaja) {
+
+                                            if ($contadorFor == 0) {
+                                                //Hacemos un segundo foreach para recoger su atributo
+                                                foreach ($GestorBaja as $atributo => $valor) { ?>
+                                                    <th scope="col"><?php echo strtoupper($atributo) ?></th>
+                                        <?php
+
+                                                }
                                             }
+                                            $contadorFor = 100;
+                                        }
                                         ?>
-                                            <td><?php echo $valor ?></td>
-
-                                        <?php } ?>
-                                        <form method="post">
-                                            <!-- Este input recoge el dni de cada gestor para luego poder recogerlo -->
-                                            <input type="hidden" value="<?php echo $valorDniBaja ?>" name="sacarDniBaja">
-                                            <td>
-                                                <!-- Si se pulsa se llamará al fichero darAltaGestor.php -->
-                                                <button type="submit" name="darAlta" class="btn btn-success btn-sm">Dar de Alta</button>
-                                            </td>
-                                        </form>
+                                        <th scope="col">ACCIONES</th>
                                     </tr>
-                                <?php
-                                }
-                                ?>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    //Este foreach recorre los diferentes Gestors
+                                    foreach ($listadoGestoresBaja as $GestorBaja) { ?>
+                                        <tr>
+                                            <?php
+                                            //Este segundo foreach mostrará el valor de cada gestor
+                                            foreach ($GestorBaja as $atributo => $valor) {
+                                                if ($atributo == "dni") {
+                                                    $valorDniBaja = $valor;
+                                                }
+                                            ?>
+                                                <td><?php echo $valor ?></td>
 
-                            </tbody>
-                        </table>
+                                            <?php } ?>
+                                            <form method="post">
+                                                <!-- Este input recoge el dni de cada gestor para luego poder recogerlo -->
+                                                <input type="hidden" value="<?php echo $valorDniBaja ?>" name="sacarDniBaja">
+                                                <td>
+                                                    <!-- Si se pulsa se llamará al fichero darAltaGestor.php -->
+                                                    <button type="submit" name="darAlta" class="btn btn-success btn-sm">Dar de Alta</button>
+                                                </td>
+                                            </form>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+
+                                </tbody>
+                            </table>
+                        <?php } ?>
                     </div>
                 </div>
                 <!-- Fin de la tabla Gestors dados de baja -->
             </div>
             <!-- Fin de la fila -->
         </div>
-        <div class="row justify-content-center mt-5">
-            <div class="col-8">
-                <?php
-                //Si se pulsa el botón llamará a esa página
-                // if (isset($_POST['botonMod'])) {
-                //     include_once('./gestores/actualizarGestores.php');
-                // }
-
-                ?>
-            </div>
-        </div>
     </div>
-<?php }else{
+<?php } else {
     header("Location: ./index.php?sec=error");
-    
 }

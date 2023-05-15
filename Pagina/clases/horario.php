@@ -23,11 +23,11 @@ class Horario
     }
     public static function verHorarioCodGrupoYMonitor($dniMonitor)
     {
-        $anioActual = date('Y');
+        $anioActual = date('m');
         try {
             $conectar = new Conexion();
             $conectar->exec("SET FOREIGN_KEY_CHECKS = 0");
-            $listadoHorario = $conectar->query("Select cod_grupo,dni_monitor,nombre,hora_inicio,hora_fin,dia from clases C, monitor M where M.dni=C.dni_monitor and C.dni_monitor='$dniMonitor' and YEAR(dia)>='$anioActual';");
+            $listadoHorario = $conectar->query("Select cod_grupo,dni_monitor,nombre,hora_inicio,hora_fin,dia from clases C, monitor M where M.dni=C.dni_monitor and C.dni_monitor='$dniMonitor' and MONTH(dia)>='$anioActual';");
             if ($listadoHorario->rowCount() > 0) {
                 $infoHorario = $listadoHorario->fetchAll(PDO::FETCH_ASSOC);
             } else {
